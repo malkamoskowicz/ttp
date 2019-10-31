@@ -1,7 +1,4 @@
-const Sequelize = require('sequelize');
+const User = require('./User')
+const db = require('./db')
 
-const db = new Sequelize(process.env.DATABASE_URL ||'postgres://localhost:5432/boilerplate', {
-  logging: false 
-});
-
-module.exports = db;
+module.exports = { db, User }
