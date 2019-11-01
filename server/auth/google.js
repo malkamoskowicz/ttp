@@ -38,10 +38,7 @@ const strategy = new GoogleStrategy(
 
 passport.use(strategy)
 
-router.get(
-  '/',
-  passport.authenticate('google', {scope: ['email', 'profile']})
-)
+router.get('/',passport.authenticate('google', {scope: ['email', 'profile']}))
 
 router.get(
   '/callback',
