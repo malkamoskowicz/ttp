@@ -1,12 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import store from './store';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {Provider} from 'react-redux'
+import {HashRouter as Router} from 'react-router-dom'
+import store from './store'
+import App from './app'
 
 ReactDOM.render(
-  <Provider store={store}>  
-    <div>Hello, world!</div>
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById('app')
 );

@@ -10,11 +10,16 @@ const User = db.define('user', {
     unique: true,
     allowNull: false
   },
-  google_id: {
-    type: Sequelize.STRING
-  },
   password: {
     type: Sequelize.STRING
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  cashBalance: {
+    type: Sequelize.STRING,
+    defaultvalue: '500000'
   },
   salt: {
     type: Sequelize.STRING
