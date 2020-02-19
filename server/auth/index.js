@@ -58,6 +58,4 @@ router.use((req, res, next) => {
     next(err);
 })
 
-router.use('/google', require('./google'))
-
 module.exports = router
