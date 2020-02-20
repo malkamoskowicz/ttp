@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 export default class Signup extends React.Component {
     constructor() {
@@ -12,6 +13,7 @@ export default class Signup extends React.Component {
             validPassword: false
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(event) {
@@ -20,8 +22,32 @@ export default class Signup extends React.Component {
         })
     }  
     
-    handleSubmit(event) {
-        return false
+    async handleSubmit(event) {
+        event.preventDefault()
+
+        const {name, email, password} = this.state
+
+        // validate fields
+        if (!name.length || !email.length || !password.length) {
+            alert("all fields are required")
+            return
+        }
+
+        const userInfo = {
+            name,
+            email,
+            password
+        }
+        const { data } = await axios.post("/auth/signup", userInfo)
+
+        console.log('sign up res', data)
+
+        if (data.name) {
+            if (data.name  === "SequelizeUniqueConstraintError")
+                alert("email already in use")
+            else alert("error signup up, please try again")
+        }
+
     }
 
     render(){
@@ -61,6 +87,9 @@ export default class Signup extends React.Component {
                     onChange={this.handleChange}
                     placeholder={"password"}
                 />
+                <button onClick={this.handleSubmit}>
+                    <p>submit</p>
+                </button>
             </form>   
         )    
     }

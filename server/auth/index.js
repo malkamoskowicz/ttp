@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const {User} = require('../db')
 
 router.get('/', (req, res, next) => {
     try {
@@ -17,16 +18,16 @@ router.put('/login', async (req, res, next) => {
           })
             
           if (!user) res.status(401).send('User not found');
-          else if (!user.hasMatchingPassword(req.body.password)) res.status(401).send('Incorrect password')
+          else if (!user.correctPassword(req.body.password)) res.status(401).send('Incorrect password')
           else {
               req.login(user, err => {
-              if (err) next(err);
+              if (err) res.send(err);
               else res.json(user);
               });
           }
         
     } catch (error) {
-        next(error)
+        res.send(error)
     }
 })
 
@@ -38,7 +39,7 @@ router.post('/signup', async (req, res, next) => {
           else res.json(user);
       })
   } catch (error) {
-      next(error)
+      res.send(error)
   }  
 })
 

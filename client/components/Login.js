@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 export default class Login extends React.Component {
     constructor() {
@@ -10,6 +11,7 @@ export default class Login extends React.Component {
             validPassword: false
         }
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(event) {
@@ -18,8 +20,19 @@ export default class Login extends React.Component {
         })
     }  
     
-    handleSubmit(event) {
-        return false
+    async handleSubmit(event) {
+        event.preventDefault()
+        const {email, password} = this.state
+        if (!email.length || !password.length) {
+            alert("please enter both fields")
+            return
+        }
+        const userInfo = {
+            email,
+            password
+        }
+        const response = await axios.put('/auth/login', userInfo)
+        console.log('res from log in', response)
     }
 
     render(){
@@ -52,6 +65,9 @@ export default class Login extends React.Component {
                     onChange={this.handleChange}
                     placeholder={"password"}
                 />
+                <button onClick={this.handleSubmit}>
+                    <p>submit</p>
+                </button>
             </form>   
         )    
     }
