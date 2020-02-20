@@ -1,7 +1,9 @@
 import React from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import { login } from '../reducers'
 
-export default class Login extends React.Component {
+class Login extends React.Component {
     constructor() {
         super()
         this.state = {
@@ -33,7 +35,7 @@ export default class Login extends React.Component {
         }
         const { data } = await axios.put('/auth/login', userInfo)
         if (data.error) alert(data.error)
-        else alert("logging you in")
+        else this.props.login()
     }
 
     render(){
@@ -73,3 +75,11 @@ export default class Login extends React.Component {
         )    
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: () => dispatch(login())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Login)

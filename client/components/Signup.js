@@ -1,7 +1,9 @@
 import React from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import { login } from '../reducers'
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
     constructor() {
         super()
         this.state = {
@@ -40,12 +42,16 @@ export default class Signup extends React.Component {
         }
         try {
             const { data } = await axios.post("/auth/signup", userInfo)
-            if (data.name) {
+
+            // check for signup error
+            if (data.name != name) {
                 if (data.name === "SequelizeUniqueConstraintError")
                     alert("email already in use")
-                if (data.name === "SequelizeValidationError")
+                else if (data.name === "SequelizeValidationError")
                     alert("invalid email")
-            }
+            }            
+            else this.props.login()
+            console.log('res from signup', data)
         }
         catch(err) {
             alert(err)
@@ -97,3 +103,11 @@ export default class Signup extends React.Component {
         )    
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: () => dispatch(login())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Signup)

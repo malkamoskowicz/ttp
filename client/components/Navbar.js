@@ -8,9 +8,6 @@ const Navbar = props => (
             {/* The navbar will show these links before you log in */}
             <Link to="/login">Login</Link>
             <Link to="/signup">Signup</Link>
-            <a href="#" onClick={props.handleClick}>
-              Logout
-            </a>
           </div>
         ) : (
           <div>

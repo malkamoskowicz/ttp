@@ -25,6 +25,9 @@ const User = db.define('user', {
   },
   salt: {
     type: Sequelize.STRING
+  },
+  cashBalance: {
+    type: Sequelize.STRING,
   }
 }, {
   hooks: {

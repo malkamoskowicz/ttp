@@ -1,5 +1,18 @@
 const router = require('express').Router()
 const {User} = require('../db')
+const passport = require('passport');
+
+// passport registration
+passport.serializeUser((user, done) => done(null, user.id));
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findByPk(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
 
 router.put('/login', async (req, res, next) => {
     try {
@@ -27,10 +40,11 @@ router.post('/signup', async (req, res, next) => {
       const user = await User.create({
           name: req.body.name,
           email: req.body.email,
-          password: req.body.password
+          password: req.body.password,
+          cashBalance: '50000'
       })
       req.login(user, err => {
-          if (err) next(err);
+          if (err) res.json(err);
           else res.json(user);
       })
   } catch (error) {
@@ -45,7 +59,9 @@ router.delete('/logout', (req, res, next) => {
 })
 
 router.get('/me', (req, res, next) => {
-  res.json(req.user)
+  res.json({
+    cashBalance: req.user.cashBalance
+  })
 })
 
 router.use((req, res, next) => {

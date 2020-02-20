@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const app = express()
 const session = require('express-session')
+const passport = require('passport');
 
 //body parser
 const bodyParser = require('body-parser');
@@ -14,6 +15,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 //use bundle.js
 app.use(express.static(path.join(__dirname, '..')))
