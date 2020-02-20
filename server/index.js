@@ -18,8 +18,6 @@ app.use(session({
 //use bundle.js
 app.use(express.static(path.join(__dirname, '..')))
 
-//use api and auth routes
-app.use('/api', require('./api'))
 app.use('/auth', require('./auth'))
 
 app.get('*', (req, res, next) => {

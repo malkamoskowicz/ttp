@@ -13,12 +13,12 @@ router.put('/login', async (req, res, next) => {
     try {
         const user = await User.findOne({
             where: {
-              email: req.body.email
+              email: req.body.email,
+              password: req.body.password
             }
           })
             
-          if (!user) res.send({error: 'User not found'});
-          else if (!user.correctPassword(req.body.password)) res.send({error: 'Incorrect password'})
+          if (!user) res.send({error: 'Invalid credentials'});
           else {
               req.login(user, err => {
               if (err) res.send({error: 'internal error, please try again soon'});
