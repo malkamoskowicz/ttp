@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
-import { connect } from 'react-redux'
-import { login } from '../reducers'
+import {connect} from 'react-redux'
+import {login} from '../reducers'
 
 class Signup extends React.Component {
     constructor() {

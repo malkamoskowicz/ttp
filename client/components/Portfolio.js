@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import {token} from '../../secrets'
+import {buy} from '../reducers'
 
 class Portfolio extends React.Component {
     constructor() {
@@ -44,9 +45,13 @@ class Portfolio extends React.Component {
             if (totalPrice > this.props.cashBalance) {
                 alert('you do not have enough cash to buy')
             }
+            else this.props.buy({
+                symbol: data.symbol,
+                totalPrice,
+            })
         }
         catch(err) {
-            alert(err)
+            alert('invalid ticker code')
         }
     }
 
@@ -95,4 +100,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, null)(Portfolio)
+const mapDispatchToProps = dispatch => {
+    return {
+        buy: (stockInfo) => dispatch(buy(stockInfo))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Portfolio)
