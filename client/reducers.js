@@ -11,7 +11,6 @@ const defaultState = {
 export const login = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me');
-    console.log('res', res)
     dispatch(loginUser(res.data));
   } catch (err) {
     console.error(err);

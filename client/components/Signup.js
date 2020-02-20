@@ -48,7 +48,6 @@ class Signup extends React.Component {
                     alert("invalid email")
             }            
             else this.props.login()
-            console.log('res from signup', data)
         }
         catch(err) {
             alert(err)

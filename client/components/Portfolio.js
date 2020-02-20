@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
+import {token} from '../../secrets'
 
 class Portfolio extends React.Component {
     constructor() {
@@ -11,6 +12,7 @@ class Portfolio extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.buyStock = this.buyStock.bind(this)
     }
 
     handleChange(event) {
@@ -26,8 +28,25 @@ class Portfolio extends React.Component {
             alert("please enter both fields")
             return
         }
-        if (isNaN(quantity)) {
+        else if (isNaN(quantity)) {
             alert("quantity must be a number")
+        }
+
+        // if all fields are valid, continue to attempt to buy stock
+        else this.buyStock()
+    }
+
+    async buyStock() {
+        try {
+            const {data} = await axios.get(`https://cloud.iexapis.com/stable/stock/${this.state.code}/quote?token=${token}`, )
+            console.log('data', data)
+            const totalPrice = data.latestPrice * this.state.quantity
+            if (totalPrice > this.props.cashBalance) {
+                alert('you do not have enough cash to buy')
+            }
+        }
+        catch(err) {
+            alert(err)
         }
     }
 
@@ -64,6 +83,7 @@ class Portfolio extends React.Component {
                 <button onClick={this.handleSubmit}>
                     <p>buy</p>
                 </button>
+                <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
             </form>   
         )    
     }
