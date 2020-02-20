@@ -1,14 +1,6 @@
 const router = require('express').Router()
 const {User} = require('../db')
 
-router.get('/', (req, res, next) => {
-    try {
-        res.send('done')
-    } catch (error) {
-        next(error)
-    }
-})
-
 router.put('/login', async (req, res, next) => {
     try {
         const user = await User.findOne({
