@@ -32,6 +32,9 @@ class Portfolio extends React.Component {
         else if (isNaN(quantity)) {
             alert("quantity must be a number")
         }
+        else if (quantity % 1 != 0) {
+            alert("quantity must be a whole number")
+        }
 
         // if all fields are valid, continue to attempt to buy stock
         else this.buyStock()
