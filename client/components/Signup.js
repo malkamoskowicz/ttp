@@ -39,9 +39,6 @@ export default class Signup extends React.Component {
             password
         }
         const { data } = await axios.post("/auth/signup", userInfo)
-
-        console.log('sign up res', data)
-
         if (data.name) {
             if (data.name  === "SequelizeUniqueConstraintError")
                 alert("email already in use")

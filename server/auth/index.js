@@ -17,11 +17,11 @@ router.put('/login', async (req, res, next) => {
             }
           })
             
-          if (!user) res.status(401).send('User not found');
-          else if (!user.correctPassword(req.body.password)) res.status(401).send('Incorrect password')
+          if (!user) res.send({error: 'User not found'});
+          else if (!user.correctPassword(req.body.password)) res.send({error: 'Incorrect password'})
           else {
               req.login(user, err => {
-              if (err) res.send(err);
+              if (err) res.send({error: 'internal error, please try again soon'});
               else res.json(user);
               });
           }

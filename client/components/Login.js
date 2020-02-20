@@ -31,8 +31,9 @@ export default class Login extends React.Component {
             email,
             password
         }
-        const response = await axios.put('/auth/login', userInfo)
-        console.log('res from log in', response)
+        const { data } = await axios.put('/auth/login', userInfo)
+        if (data.error) alert(data.error)
+        else alert("logging you in")
     }
 
     render(){
