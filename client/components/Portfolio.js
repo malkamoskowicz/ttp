@@ -62,7 +62,7 @@ class Portfolio extends React.Component {
                     placeholder={"quantity"}
                 />
                 <button onClick={this.handleSubmit}>
-                    <p>submit</p>
+                    <p>buy</p>
                 </button>
             </form>   
         )    
