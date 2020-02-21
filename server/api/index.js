@@ -44,16 +44,21 @@ router.get('/portfolio', async (req, res, next) => {
       attributes: ['code', 'quantity']
     })
     
-    const uniqueCodes = {}
+    const uniqueCodesObject = {}
 
     // combine same codes
     allCodesObjects.forEach(transaction => {
       const code = transaction.code
       const quantity = transaction.quantity
-      uniqueCodes[code] = uniqueCodes[code] || 0
-      uniqueCodes[code] += quantity
+      uniqueCodesObject[code] = uniqueCodesObject[code] || 0
+      uniqueCodesObject[code] += quantity
     })
-    res.json(uniqueCodes)
+
+    // turn into array
+    const keys = Object.keys(uniqueCodesObject)
+    const uniqueCodesArray = []
+    keys.forEach(key => uniqueCodesArray.push({code: [key], quantity: uniqueCodesObject[key]}))
+    res.json(uniqueCodesArray)
   }
   catch(err){
     next(err)

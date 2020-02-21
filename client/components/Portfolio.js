@@ -10,6 +10,7 @@ class Portfolio extends React.Component {
         this.state = {
             code: '',
             quantity: '',
+            portfolio: [],
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -19,8 +20,9 @@ class Portfolio extends React.Component {
 
     async componentDidMount() {
         const {data} = await axios.get('/api/portfolio')
-        console.log('port', data)
-        for(let t in data) console.log('ay', t)
+        this.setState({
+            portfolio: data
+        })
     }
 
     handleChange(event) {
@@ -50,7 +52,6 @@ class Portfolio extends React.Component {
     async buyStock() {
         try {
             const {data} = await axios.get(`https://cloud.iexapis.com/stable/stock/${this.state.code}/quote?token=${token}`, )
-            console.log('data', data)
             const totalPrice = data.latestPrice * this.state.quantity
             if (totalPrice > this.props.cashBalance) {
                 alert('you do not have enough cash to buy')
@@ -68,7 +69,7 @@ class Portfolio extends React.Component {
 
     render(){
         const styles = {
-            container: {
+            box: {
                 margin: "auto",
                 padding: "20px",
                 borderColor: "black",
@@ -77,30 +78,44 @@ class Portfolio extends React.Component {
                 flexDirection: "column",
                 width: "300px",
                 marginTop: "100px"
+            },
+            container: {
+                display: "flex",
+                borderRight: "5px"
             }
         }
         return (
-            <form onSubmit={this.handleSubmit} name={name} style={styles.container}>
-                <h1>Cash - {this.props.cashBalance}</h1>
-                <input
-                    name="code"
-                    type="text"
-                    value={this.state.code}
-                    onChange={this.handleChange}
-                    placeholder={"code"}
-                />
-                <input
-                    name="quantity"
-                    type="text"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    placeholder={"quantity"}
-                />
-                <button onClick={this.handleSubmit}>
-                    <p>buy</p>
-                </button>
-                <a href="https://iexcloud.io" target="_blank">Data provided by IEX Cloud</a>
-            </form>   
+            <div style={styles.container}>
+                <div>
+                    {this.state.portfolio.map(item =>
+                        (<div key={item.code}>
+                            <p>code {item.code}</p>
+                            <p>quanity{item.quantity}</p>
+                        </div>)
+                    )}
+                </div>
+                <form onSubmit={this.handleSubmit} name={name} style={styles.box}>
+                    <h1>Cash - {this.props.cashBalance}</h1>
+                    <input
+                        name="code"
+                        type="text"
+                        value={this.state.code}
+                        onChange={this.handleChange}
+                        placeholder={"code"}
+                    />
+                    <input
+                        name="quantity"
+                        type="text"
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                        placeholder={"quantity"}
+                    />
+                    <button onClick={this.handleSubmit}>
+                        <p>buy</p>
+                    </button>
+                    <a href="https://iexcloud.io" target="_blank">Data provided by IEX Cloud</a>
+                </form> 
+            </div>
         )    
     }
 }
