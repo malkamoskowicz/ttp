@@ -114,10 +114,7 @@ class Portfolio extends React.Component {
             },
             stock: {
                 padding: "20px",
-                borderColor: "black",
-                borderStyle: "solid",
                 display: "flex",
-                width: "90%",
                 margin: "auto",
                 marginTop: "10px",
                 justifyContent: "space-around"
@@ -149,10 +146,12 @@ class Portfolio extends React.Component {
                 </form> 
                 <div>
                     {this.props.portfolio && this.props.portfolio.map((item, i) =>
-                        (<div key={item.code} style={styles.stock}>
-                            <p>{item.code}</p>
-                            <p>{item.quantity}</p>
-                            <p style={{backgroundColor: this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][1]}}>{this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][0] || 'loading'}</p>
+                        (<div key={item.code} style={{backgroundColor: this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][1]}}>
+                            <div style={styles.stock}>
+                                <p>{item.code}</p>
+                                <p>{item.quantity}</p>
+                                <p>{this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][0] || 'loading'}</p>
+                            </div>
                         </div>)
                     )}
                 </div>
