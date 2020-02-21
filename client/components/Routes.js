@@ -1,6 +1,6 @@
-import React from 'react';
-import {withRouter, Route, Switch} from 'react-router-dom';
-import {Login, Signup, Transactions, Portfolio} from '.';
+import React from 'react'
+import {withRouter, Route, Switch} from 'react-router-dom'
+import {Login, Signup, Transactions, Portfolio} from '.'
 import {connect} from 'react-redux'
 
 const Routes = props =>  {

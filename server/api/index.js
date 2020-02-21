@@ -11,14 +11,14 @@ router.patch('/buy', async (req, res, next) => {
     res.status(200).send('done')
   }
   catch(err) {
-    res.send('error')
+    next(err)
   }
 })
 
 router.use((req, res, next) => {
-    const err = new Error('Not found.');
-    err.status = 404;
-    next(err);
+    const err = new Error('Not found.')
+    err.status = 404
+    next(err)
 })
 
 module.exports = router
