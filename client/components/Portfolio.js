@@ -16,16 +16,30 @@ class Portfolio extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.buyStock = this.buyStock.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
+        this.calculateRealtimeInfo = this.calculateRealtimeInfo.bind(this)
     }
 
     componentDidMount() {
         this.mounted = true
+        this.calculateRealtimeInfo()
+    }
 
-        // calculate real time price of portfolio
+    componentWillUnmount() {
+        this.mounted = false
+    }
+
+    calculateRealtimeInfo() {
         setInterval(() => { 
+            // if component is unmounted, exit
             if (!this.mounted) return
+
+            // get portfolio and last updated latestPricesAndColors array
             const {portfolio} = this.props
+
+            // loop through previously updated latestPricesAndColors
             const latestPricesAndColors = this.state.latestPricesAndColors.slice()
+
+            // for each, get newly updates info
             portfolio.forEach((item, i)=> {
                 axios.get(`https://cloud.iexapis.com/stable/stock/${item.code}/quote?token=${token}`)
                 .then(stockInfo => {
@@ -46,11 +60,7 @@ class Portfolio extends React.Component {
                 })
             })
             this.setState({latestPricesAndColors})
-        }, 200)
-    }
-
-    componentWillUnmount() {
-        this.mounted = false
+        }, 300)
     }
 
     handleChange(event) {
