@@ -10,7 +10,8 @@ class Portfolio extends React.Component {
         this.state = {
             code: '',
             quantity: '',
-            latestPricesAndColors: []
+            latestPricesAndColors: [],
+            portfolioBalance: 0,
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -33,6 +34,9 @@ class Portfolio extends React.Component {
             // if component is unmounted, exit
             if (!this.mounted) return
 
+            // recalculate portfolio balance
+            let portfolioBalance = 0
+
             // get portfolio and last updated latestPricesAndColors array
             const {portfolio} = this.props
 
@@ -43,6 +47,10 @@ class Portfolio extends React.Component {
             portfolio.forEach((item, i)=> {
                 axios.get(`https://cloud.iexapis.com/stable/stock/${item.code}/quote?token=${token}`)
                 .then(stockInfo => {
+
+                    // update portfolio balance 
+                    portfolioBalance += stockInfo.data.latestPrice * item.quantity
+                    console.log('p in loop', portfolioBalance)
 
                     const miniArray = []
 
@@ -58,9 +66,11 @@ class Portfolio extends React.Component {
 
                     latestPricesAndColors[i] = miniArray
                 })
+                .then(() => {
+                    this.setState({latestPricesAndColors, portfolioBalance})
+                })
             })
-            this.setState({latestPricesAndColors})
-        }, 300)
+        }, 9000)
     }
 
     handleChange(event) {
@@ -131,7 +141,7 @@ class Portfolio extends React.Component {
         }
         return (
             <div style={styles.container}>
-                <h1>Portfolio</h1>
+                <h1>Portfolio {this.state.portfolioBalance || null}</h1>
                 <form onSubmit={this.handleSubmit} name={name} style={styles.box}>
                     <h1>Cash - {this.props.cashBalance}</h1>
                     <input
