@@ -29,7 +29,6 @@ class Portfolio extends React.Component {
             portfolio.forEach((item, i)=> {
                 axios.get(`https://cloud.iexapis.com/stable/stock/${item.code}/quote?token=${token}`)
                 .then(stockInfo => {
-                    console.log('stock ifo', stockInfo)
 
                     const miniArray = []
 
