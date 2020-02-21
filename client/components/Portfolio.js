@@ -120,6 +120,7 @@ class Portfolio extends React.Component {
             container: {
                 marginTop: "10px",
                 display: "flex",
+                margin: "auto",
                 alignItems: "center",
                 flexDirection: "column",
                 justifyContent: "center"
