@@ -6,30 +6,43 @@ const Transactions = props => {
     const styles = {
         container: {
             marginTop: "10px",
-            width: "90%",
-            margin: "auto"
+            width: "100%",
+            margin: "auto",
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column"
         },
         transaction: {
-            padding: "20px",
-            borderColor: "black",
-            borderStyle: "solid",
+            padding: "15px",
+            borderTop: "1px solid black",
             display: "flex",
-            width: "90%",
+            width: "100%",
             margin: "auto",
-            marginTop: "10px",
-            justifyContent: "space-around"
+            marginTop: "6px",
+            justifyContent: "space-around",
+        },
+        header: {
+            fontSize: "28px",
+        },
+        transactionsContainer: {
+            display: "flex",
+            flexDirection: "column",
+            margin: "auto",
+            alignItems: "flex-start"
         }
     }
     return (
-        <div>
-            <h1 style={styles.container}>Transactions</h1>
-            {props.transactions && props.transactions.map(transaction => 
+        <div style={styles.container}>
+            <p style={styles.header}>Transactions</p>
+            <div style={styles.transactionsContainer}>
+                {props.transactions && props.transactions.map(transaction => 
                 (<div key={transaction.id} style={styles.transaction}>
                     <p>{transaction.code}</p>
                     <p>{transaction.quantity} shares</p>
                     <p>${transaction.totalPrice ? Number(transaction.totalPrice).toFixed(2) : null}</p>
                 </div>)
             )}
+            </div>
         </div>
     )    
 }

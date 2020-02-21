@@ -5,12 +5,13 @@ import {connect} from 'react-redux'
 const styles = {
   nav: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   link: {
     color: "black",
     padding: "20px",
-    textDecoration: "none"
+    textDecoration: "none",
+    fontSize: "18px",
   }
 }
 
@@ -25,7 +26,7 @@ const Navbar = props => (
         ) : (
           <div>
             {/* The navbar will show these links after you log in */}
-              <Link style={styles.link} to="/transactions">transactions</Link>
+              <Link style={styles.link} to="/transactions">Transactions</Link>
               <Link style={styles.link} to="/portfolio">Portflio</Link>
           </div>
         )}
