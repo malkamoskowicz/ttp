@@ -10,7 +10,6 @@ class Portfolio extends React.Component {
         this.state = {
             code: '',
             quantity: '',
-            portfolio: [],
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -79,7 +78,7 @@ class Portfolio extends React.Component {
         return (
             <div style={styles.container}>
                 <div>
-                    {this.state.portfolio && this.state.portfolio.map(item =>
+                    {this.props.portfolio && this.props.portfolio.map(item =>
                         (<div key={item.code}>
                             <p>code {item.code}</p>
                             <p>quanity{item.quantity}</p>

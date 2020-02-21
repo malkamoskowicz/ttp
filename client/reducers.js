@@ -39,8 +39,15 @@ export const login = () => async dispatch => {
 // buy stock thunk
 export const buy = (stockInfo) => async dispatch => {
   try {
+
+    // buy stock
     await axios.patch('/api/buy', stockInfo)
     dispatch(buyStock(stockInfo))
+
+    // re-calculate portfolio
+    const portfolio = await axios.get('/api/portfolio')
+    dispatch(getPortfolio(portfolio.data))
+
   } catch (err) {
     console.error(err)
   }
@@ -54,8 +61,7 @@ export default function(state = defaultState, action) {
       return {
         ...state, 
         cashBalance: state.cashBalance - action.stockInfo.totalPrice,
-        transactions: [...state.transactions, action.transactions],
-        portfolio: [...state.portfolio, {code: action.portfolio.code, quantity: action.portfolio.quantity}]
+        transactions: [...state.transactions, action.stockInfo],
       }
     case GET_TRANSACTIONS: 
       return {...state, transactions: action.transactions}

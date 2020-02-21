@@ -28,7 +28,10 @@ router.patch('/buy', async (req, res, next) => {
 
 router.get('/transactions', async (req, res, next) => {
   try {
-    const transactions = await Transaction.findAll({where: {userId: req.user.id}})
+    const transactions = await Transaction.findAll({
+      where: {userId: req.user.id},
+      attributes: ['code', 'quantity', 'totalPrice', 'id']
+    })
     res.json(transactions)
   }
   catch(err){
@@ -57,7 +60,7 @@ router.get('/portfolio', async (req, res, next) => {
     // turn into array
     const keys = Object.keys(uniqueCodesObject)
     const uniqueCodesArray = []
-    keys.forEach(key => uniqueCodesArray.push({code: [key], quantity: uniqueCodesObject[key]}))
+    keys.forEach(key => uniqueCodesArray.push({code: key, quantity: uniqueCodesObject[key]}))
     res.json(uniqueCodesArray)
   }
   catch(err){
