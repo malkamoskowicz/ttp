@@ -10,10 +10,34 @@ class Portfolio extends React.Component {
         this.state = {
             code: '',
             quantity: '',
+            latestPrices: []
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.buyStock = this.buyStock.bind(this)
+        this.componentDidMount = this.componentDidMount.bind(this)
+    }
+
+    componentDidMount() {
+        this.mounted = true
+
+        // calculate real time price of portfolio
+        setInterval(() => { 
+            if (!this.mounted) return
+            const {portfolio} = this.props
+            const latestPrices = this.state.latestPrices.slice()
+            portfolio.forEach((item, i)=> {
+                axios.get(`https://cloud.iexapis.com/stable/stock/${item.code}/quote?token=${token}`)
+                .then(stockInfo => {
+                    latestPrices[i] = stockInfo.data.latestPrice
+                })
+            })
+            this.setState({latestPrices})
+        }, 1000)
+    }
+
+    componentWillUnmount() {
+        this.mounted = false
     }
 
     handleChange(event) {
@@ -42,7 +66,7 @@ class Portfolio extends React.Component {
 
     async buyStock() {
         try {
-            const {data} = await axios.get(`https://cloud.iexapis.com/stable/stock/${this.state.code}/quote?token=${token}`, )
+            const {data} = await axios.get(`https://cloud.iexapis.com/stable/stock/${this.state.code}/quote?token=${token}`)
             const totalPrice = data.latestPrice * this.state.quantity
             if (totalPrice > this.props.cashBalance) {
                 alert('you do not have enough cash to buy')
@@ -110,10 +134,11 @@ class Portfolio extends React.Component {
                     <a href="https://iexcloud.io" target="_blank">Data provided by IEX Cloud</a>
                 </form> 
                 <div>
-                    {this.props.portfolio && this.props.portfolio.map(item =>
+                    {this.props.portfolio && this.props.portfolio.map((item, i) =>
                         (<div key={item.code} style={styles.stock}>
-                            <p>code {item.code}</p>
-                            <p>quanity{item.quantity}</p>
+                            <p>{item.code}</p>
+                            <p>{item.quantity}</p>
+                            <p>{this.state.latestPrices[i] || 'loading'}</p>
                         </div>)
                     )}
                 </div>
@@ -125,13 +150,13 @@ class Portfolio extends React.Component {
 const mapStateToProps = state => {
     return {
         cashBalance: state.cashBalance,
-        portfolio: state.portfolio
+        portfolio: state.portfolio,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        buy: (stockInfo) => dispatch(buy(stockInfo))
+        buy: (stockInfo) => dispatch(buy(stockInfo)),
     }
 }
 
