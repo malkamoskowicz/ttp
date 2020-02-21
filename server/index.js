@@ -23,6 +23,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '..')))
 
 app.use('/auth', require('./auth'))
+app.use('/api', require('./api'))
 
 app.get('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../index.html'));

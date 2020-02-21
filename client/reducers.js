@@ -22,7 +22,7 @@ export const login = () => async dispatch => {
 
 export const buy = (stockInfo) => async dispatch => {
   try {
-    // await axios.post('/user/buy', stockInfo);
+    await axios.patch('/api/buy', stockInfo);
     dispatch(buyStock(stockInfo));
   } catch (err) {
     console.error(err);
