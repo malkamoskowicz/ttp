@@ -60,18 +60,34 @@ class Signup extends React.Component {
             container: {
                 margin: "auto",
                 padding: "20px",
-                borderColor: "black",
-                borderStyle: "solid",
                 display: "flex",
                 flexDirection: "column",
                 width: "300px",
-                marginTop: "100px"
+                marginTop: "100px",
+                justifyContent: "center",
+                alignItems: "center"
+            },
+            input: {
+                padding: "10px",
+                marginBottom: "10px",
+                outline: "none",
+                width: "80%"
+            },
+            button: {
+                backgroundColor: "transparent",
+                cursor: "pointer",
+                outline: "none",
+                width: "90%",
+            },
+            header: {
+                fontSize: "20px"
             }
         }
         return (
             <form onSubmit={this.handleSubmit} name={name} style={styles.container}>
-                <h1>Register</h1>
+                <p style={styles.header}>Register</p>
                 <input
+                    style={styles.input}
                     name="name"
                     type="text"
                     value={this.state.name}
@@ -79,6 +95,7 @@ class Signup extends React.Component {
                     placeholder={"name"}
                 />
                 <input
+                    style={styles.input}
                     name="email"
                     type="text"
                     value={this.state.email}
@@ -86,13 +103,14 @@ class Signup extends React.Component {
                     placeholder={"email"}
                 />
                 <input
+                    style={styles.input}
                     name="password"
                     type="password"
                     value={this.state.password}
                     onChange={this.handleChange}
                     placeholder={"password"}
                 />
-                <button onClick={this.handleSubmit}>
+                <button onClick={this.handleSubmit} style={styles.button}>
                     <p>submit</p>
                 </button>
             </form>   
