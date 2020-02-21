@@ -47,7 +47,7 @@ class Portfolio extends React.Component {
                 })
             })
             this.setState({latestPricesAndColors})
-        }, 1000)
+        }, 200)
     }
 
     componentWillUnmount() {
