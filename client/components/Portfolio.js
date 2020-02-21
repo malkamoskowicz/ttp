@@ -49,7 +49,8 @@ class Portfolio extends React.Component {
                 alert('you do not have enough cash to buy')
             }
             else this.props.buy({
-                symbol: data.symbol,
+                code: data.symbol,
+                quantity: this.state.quantity,
                 totalPrice,
             })
         }

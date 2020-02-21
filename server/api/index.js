@@ -1,13 +1,18 @@
 const router = require('express').Router()
-const {User} = require('../db')
+const {User, Transaction} = require('../db')
 
 router.patch('/buy', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id)
-    console.log('user', user.cashBalance, 'req body', req.body)
     user.update({
       cashBalance: user.cashBalance - req.body.totalPrice
     })
+    await user.createTransaction({
+      code: req.body.code,
+      quantity: +req.body.quantity,
+      totalPrice: +req.body.totalPrice,
+    })
+    
     res.status(200).send('done')
   }
   catch(err) {

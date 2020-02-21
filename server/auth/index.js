@@ -48,7 +48,7 @@ router.post('/signup', async (req, res, next) => {
           else res.json(user)
       })
   } catch (error) {
-      next(error)
+      res.send(error)
   }  
 })
 
