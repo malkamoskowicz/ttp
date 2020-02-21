@@ -15,14 +15,6 @@ class Portfolio extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.buyStock = this.buyStock.bind(this)
-        this.componentDidMount = this.componentDidMount.bind(this)
-    }
-
-    async componentDidMount() {
-        const {data} = await axios.get('/api/portfolio')
-        this.setState({
-            portfolio: data
-        })
     }
 
     handleChange(event) {
@@ -87,7 +79,7 @@ class Portfolio extends React.Component {
         return (
             <div style={styles.container}>
                 <div>
-                    {this.state.portfolio.map(item =>
+                    {this.state.portfolio && this.state.portfolio.map(item =>
                         (<div key={item.code}>
                             <p>code {item.code}</p>
                             <p>quanity{item.quantity}</p>
@@ -122,7 +114,8 @@ class Portfolio extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        cashBalance: state.cashBalance
+        cashBalance: state.cashBalance,
+        portfolio: state.portfolio
     }
 }
 

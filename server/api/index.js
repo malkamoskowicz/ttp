@@ -41,7 +41,7 @@ router.get('/portfolio', async (req, res, next) => {
     // grab codes from all transactions
     const allCodesObjects = await Transaction.findAll({
       where: {userId: req.user.id},
-      attributes: ['code', 'quantity']
+      attributes: ['code', 'quantity'],
     })
     
     const uniqueCodesObject = {}
