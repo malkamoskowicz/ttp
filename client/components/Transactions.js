@@ -27,7 +27,7 @@ const Transactions = props => {
                 (<div key={transaction.id} style={styles.transaction}>
                     <p>{transaction.code}</p>
                     <p>{transaction.quantity} shares</p>
-                    <p>${transaction.totalPrice}</p>
+                    <p>${transaction.totalPrice ? Number(transaction.totalPrice).toFixed(2) : null}</p>
                 </div>)
             )}
         </div>

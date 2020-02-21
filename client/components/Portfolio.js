@@ -55,7 +55,7 @@ class Portfolio extends React.Component {
                     const miniArray = []
 
                     // calculate real time price
-                    miniArray[0] = stockInfo.data.latestPrice * item.quantity
+                    miniArray[0] = (stockInfo.data.latestPrice * item.quantity).toFixed(2)
 
                     // calculate background color
                     const last = stockInfo.data.previousClose
@@ -67,7 +67,7 @@ class Portfolio extends React.Component {
                     latestPricesAndColors[i] = miniArray
                 })
                 .then(() => {
-                    this.setState({latestPricesAndColors, portfolioBalance})
+                    this.setState({latestPricesAndColors, portfolioBalance: portfolioBalance.toFixed(2)})
                 })
             })
         }, 9000)
@@ -143,7 +143,7 @@ class Portfolio extends React.Component {
             <div style={styles.container}>
                 <h1>Portfolio {this.state.portfolioBalance || null}</h1>
                 <form onSubmit={this.handleSubmit} name={name} style={styles.box}>
-                    <h1>Cash - {this.props.cashBalance}</h1>
+                    <h1>Cash - ${Number(this.props.cashBalance).toFixed(2)}</h1>
                     <input
                         name="code"
                         type="text"
@@ -169,7 +169,7 @@ class Portfolio extends React.Component {
                             <div style={styles.stock}>
                                 <p>{item.code}</p>
                                 <p>{item.quantity}</p>
-                                <p>{this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][0] || 'loading'}</p>
+                                <p>{this.state.latestPricesAndColors[i] && '$' && this.state.latestPricesAndColors[i][0] || 'loading'}</p>
                             </div>
                         </div>)
                     )}
