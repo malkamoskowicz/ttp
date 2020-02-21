@@ -12,12 +12,23 @@ router.patch('/buy', async (req, res, next) => {
       quantity: +req.body.quantity,
       totalPrice: +req.body.totalPrice,
     })
-    
+
     res.status(200).send('done')
   }
   catch(err) {
     next(err)
   }
+})
+
+router.get('/transactions', async (req, res, next) => {
+  try {
+    const transactions = await Transaction.findAll({where: {userId: req.user.id}})
+    res.json(transactions)
+  }
+  catch(err){
+    next(err)
+  }
+
 })
 
 router.use((req, res, next) => {
