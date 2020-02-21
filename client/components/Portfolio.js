@@ -67,7 +67,7 @@ class Portfolio extends React.Component {
                     latestPricesAndColors[i] = miniArray
                 })
                 .then(() => {
-                    this.setState({latestPricesAndColors, portfolioBalance: portfolioBalance.toFixed(2)})
+                    this.setState({latestPricesAndColors, portfolioBalance: `$${portfolioBalance.toFixed(2)}`})
                 })
             })
         }, 9000)
