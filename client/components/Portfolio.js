@@ -10,7 +10,7 @@ class Portfolio extends React.Component {
         this.state = {
             code: '',
             quantity: '',
-            latestPrices: []
+            latestPricesAndColors: []
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -25,14 +25,28 @@ class Portfolio extends React.Component {
         setInterval(() => { 
             if (!this.mounted) return
             const {portfolio} = this.props
-            const latestPrices = this.state.latestPrices.slice()
+            const latestPricesAndColors = this.state.latestPricesAndColors.slice()
             portfolio.forEach((item, i)=> {
                 axios.get(`https://cloud.iexapis.com/stable/stock/${item.code}/quote?token=${token}`)
                 .then(stockInfo => {
-                    latestPrices[i] = stockInfo.data.latestPrice * item.quantity
+                    console.log('stock ifo', stockInfo)
+
+                    const miniArray = []
+
+                    // calculate real time price
+                    miniArray[0] = stockInfo.data.latestPrice * item.quantity
+
+                    // calculate background color
+                    const last = stockInfo.data.previousClose
+                    const curr = stockInfo.data.latestPrice
+                    if (last < curr) miniArray[1] = 'green'
+                    else if (last > curr) miniArray[1] = 'red'
+                    else miniArray[1] = 'grey'
+
+                    latestPricesAndColors[i] = miniArray
                 })
             })
-            this.setState({latestPrices})
+            this.setState({latestPricesAndColors})
         }, 1000)
     }
 
@@ -138,7 +152,7 @@ class Portfolio extends React.Component {
                         (<div key={item.code} style={styles.stock}>
                             <p>{item.code}</p>
                             <p>{item.quantity}</p>
-                            <p>{this.state.latestPrices[i] || 'loading'}</p>
+                            <p style={{backgroundColor: this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][1]}}>{this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][0] || 'loading'}</p>
                         </div>)
                     )}
                 </div>
