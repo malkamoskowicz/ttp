@@ -14,6 +14,12 @@ class Portfolio extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.buyStock = this.buyStock.bind(this)
+        this.componentDidMount = this.componentDidMount.bind(this)
+    }
+
+    async componentDidMount() {
+        const portfolio = await axios.get('/api/portfolio')
+        console.log('port', portfolio)
     }
 
     handleChange(event) {

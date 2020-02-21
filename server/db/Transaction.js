@@ -13,7 +13,7 @@ const Transaction = db.define('transaction', {
   },
   totalPrice: {
     type: Sequelize.DECIMAL,
-    allowNull: false
+    allowNull: false,
   }
 })
 module.exports = Transaction
