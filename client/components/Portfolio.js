@@ -169,7 +169,7 @@ class Portfolio extends React.Component {
                             <div style={styles.stock}>
                                 <p>{item.code}</p>
                                 <p>{item.quantity}</p>
-                                <p>{this.state.latestPricesAndColors[i] && '$' && this.state.latestPricesAndColors[i][0] || 'loading'}</p>
+                                <p>{this.state.latestPricesAndColors[i] ? `$${this.state.latestPricesAndColors[i][0]}` : 'loading'}</p>
                             </div>
                         </div>)
                     )}
