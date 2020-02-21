@@ -60,9 +60,9 @@ class Portfolio extends React.Component {
                     // calculate background color
                     const last = stockInfo.data.previousClose
                     const curr = stockInfo.data.latestPrice
-                    if (last < curr) miniArray[1] = 'green'
-                    else if (last > curr) miniArray[1] = 'red'
-                    else miniArray[1] = 'grey'
+                    if (last < curr) miniArray[1] = 'rgba(0,255,0,0.3)'
+                    else if (last > curr) miniArray[1] = 'rgba(255,0,0,0.6)'
+                    else miniArray[1] = 'rgba(192,192,192,0.4)'
 
                     latestPricesAndColors[i] = miniArray
                 })
@@ -117,34 +117,67 @@ class Portfolio extends React.Component {
 
     render(){
         const styles = {
-            box: {
-                margin: "auto",
-                width: "300px",
-                padding: "20px",
-                borderColor: "black",
-                borderStyle: "solid",
-                display: "flex",
-                flexDirection: "column",
-                marginTop: "20px"
-            },
             container: {
+                marginTop: "10px",
                 display: "flex",
-                flexDirection: "column"
+                alignItems: "center",
+                flexDirection: "column",
+                justifyContent: "center"
             },
             stock: {
+                borderBottom: "1px solid black",
+                display: "flex",
+                justifyContent: "space-around",
+            },
+            header: {
+                fontSize: "28px",
+            },
+            transactionsContainer: {
+                display: "flex",
+                flexDirection: "column",
+                width: "80%",
+            },
+            box: {
+                margin: "auto",
                 padding: "20px",
                 display: "flex",
-                margin: "auto",
+                flexDirection: "column",
+                width: "300px",
                 marginTop: "10px",
-                justifyContent: "space-around"
+                justifyContent: "center",
+                alignItems: "center",
+                border: "1px black solid"
+            },
+            input: {
+                padding: "10px",
+                marginBottom: "10px",
+                outline: "none",
+                width: "80%"
+            },
+            button: {
+                backgroundColor: "transparent",
+                cursor: "pointer",
+                outline: "none",
+                width: "90%",
+            },
+            link: {
+                color: "black",
+                padding: "10px",
+                textDecoration: "none",
+                fontSize: "12px",
+            },
+            stockContainer: {
+                marginTop: "6px",
+                padding: "15px"
             }
         }
         return (
             <div style={styles.container}>
-                <h1>Portfolio {this.state.portfolioBalance || null}</h1>
+                <p style={styles.header}>Portfolio {this.state.portfolioBalance || null}</p>
                 <form onSubmit={this.handleSubmit} name={name} style={styles.box}>
-                    <h1>Cash - ${Number(this.props.cashBalance).toFixed(2)}</h1>
+                    <p style={styles.header}>Cash - ${Number(this.props.cashBalance).toFixed(2)}</p>
                     <input
+                        style={styles.input}
                         name="code"
                         type="text"
                         value={this.state.code}
@@ -152,24 +185,27 @@ class Portfolio extends React.Component {
                         placeholder={"code"}
                     />
                     <input
+                        style={styles.input}
                         name="quantity"
                         type="text"
                         value={this.state.password}
                         onChange={this.handleChange}
                         placeholder={"quantity"}
                     />
-                    <button onClick={this.handleSubmit}>
+                    <button onClick={this.handleSubmit} style={styles.button}>
                         <p>buy</p>
                     </button>
-                    <a href="https://iexcloud.io" target="_blank">Data provided by IEX Cloud</a>
+                    <a style={styles.link} href="https://iexcloud.io" target="_blank">Data provided by IEX Cloud</a>
                 </form> 
-                <div>
+                <div style={styles.transactionsContainer}>
                     {this.props.portfolio && this.props.portfolio.map((item, i) =>
-                        (<div key={item.code} style={{backgroundColor: this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][1]}}>
-                            <div style={styles.stock}>
-                                <p>{item.code}</p>
-                                <p>{item.quantity}</p>
-                                <p>{this.state.latestPricesAndColors[i] ? `$${this.state.latestPricesAndColors[i][0]}` : 'loading'}</p>
+                        (<div key={item.code} style={styles.stockContainer}>
+                            <div style={{backgroundColor: this.state.latestPricesAndColors[i] && this.state.latestPricesAndColors[i][1]}}>
+                                <div style={styles.stock}>
+                                    <p>{item.code}</p>
+                                    <p>{item.quantity}</p>
+                                    <p>{this.state.latestPricesAndColors[i] ? `$${this.state.latestPricesAndColors[i][0]}` : 'loading'}</p>
+                                </div>
                             </div>
                         </div>)
                     )}

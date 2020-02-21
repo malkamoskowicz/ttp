@@ -27,8 +27,8 @@ const Transactions = props => {
         transactionsContainer: {
             display: "flex",
             flexDirection: "column",
-            margin: "auto",
-            alignItems: "flex-start"
+            alignItems: "flex-start",
+            width: "80%"
         }
     }
     return (
