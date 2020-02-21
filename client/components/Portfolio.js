@@ -62,29 +62,32 @@ class Portfolio extends React.Component {
         const styles = {
             box: {
                 margin: "auto",
+                width: "300px",
                 padding: "20px",
                 borderColor: "black",
                 borderStyle: "solid",
                 display: "flex",
                 flexDirection: "column",
-                width: "300px",
-                marginTop: "100px"
+                marginTop: "20px"
             },
             container: {
                 display: "flex",
-                borderRight: "5px"
+                flexDirection: "column"
+            },
+            stock: {
+                padding: "20px",
+                borderColor: "black",
+                borderStyle: "solid",
+                display: "flex",
+                width: "90%",
+                margin: "auto",
+                marginTop: "10px",
+                justifyContent: "space-around"
             }
         }
         return (
             <div style={styles.container}>
-                <div>
-                    {this.props.portfolio && this.props.portfolio.map(item =>
-                        (<div key={item.code}>
-                            <p>code {item.code}</p>
-                            <p>quanity{item.quantity}</p>
-                        </div>)
-                    )}
-                </div>
+                <h1>Portfolio</h1>
                 <form onSubmit={this.handleSubmit} name={name} style={styles.box}>
                     <h1>Cash - {this.props.cashBalance}</h1>
                     <input
@@ -106,6 +109,14 @@ class Portfolio extends React.Component {
                     </button>
                     <a href="https://iexcloud.io" target="_blank">Data provided by IEX Cloud</a>
                 </form> 
+                <div>
+                    {this.props.portfolio && this.props.portfolio.map(item =>
+                        (<div key={item.code} style={styles.stock}>
+                            <p>code {item.code}</p>
+                            <p>quanity{item.quantity}</p>
+                        </div>)
+                    )}
+                </div>
             </div>
         )    
     }
