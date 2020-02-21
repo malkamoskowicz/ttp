@@ -41,14 +41,18 @@ router.get('/portfolio', async (req, res, next) => {
     // grab codes from all transactions
     const allCodesObjects = await Transaction.findAll({
       where: {userId: req.user.id},
-      attributes: ['code']
+      attributes: ['code', 'quantity']
     })
+    
+    const uniqueCodes = {}
 
-    // map into array of just code names
-    const allCodesArray = allCodesObjects.map(el => el.code)
-
-    // filter out unique codes
-    const uniqueCodes = [...new Set(allCodesArray)]
+    // combine same codes
+    allCodesObjects.forEach(transaction => {
+      const code = transaction.code
+      const quantity = transaction.quantity
+      uniqueCodes[code] = uniqueCodes[code] || 0
+      uniqueCodes[code] += quantity
+    })
     res.json(uniqueCodes)
   }
   catch(err){

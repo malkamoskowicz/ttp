@@ -18,8 +18,9 @@ class Portfolio extends React.Component {
     }
 
     async componentDidMount() {
-        const portfolio = await axios.get('/api/portfolio')
-        console.log('port', portfolio)
+        const {data} = await axios.get('/api/portfolio')
+        console.log('port', data)
+        for(let t in data) console.log('ay', t)
     }
 
     handleChange(event) {
