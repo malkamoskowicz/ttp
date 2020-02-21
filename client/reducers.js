@@ -48,6 +48,10 @@ export const buy = (stockInfo) => async dispatch => {
     const portfolio = await axios.get('/api/portfolio')
     dispatch(getPortfolio(portfolio.data))
 
+    // re-calculate transactions
+    const transactions = await axios.get('/api/transactions')
+    dispatch(getTransactions(transactions.data))
+
   } catch (err) {
     console.error(err)
   }

@@ -32,7 +32,7 @@ router.get('/transactions', async (req, res, next) => {
       where: {userId: req.user.id},
       attributes: ['code', 'quantity', 'totalPrice', 'id']
     })
-    res.json(transactions)
+    res.json(transactions.reverse())
   }
   catch(err){
     next(err)
