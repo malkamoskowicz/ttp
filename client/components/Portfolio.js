@@ -98,7 +98,7 @@ class Portfolio extends React.Component {
                 <button onClick={this.handleSubmit}>
                     <p>buy</p>
                 </button>
-                <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
+                <a href="https://iexcloud.io" target="_blank">Data provided by IEX Cloud</a>
             </form>   
         )    
     }
