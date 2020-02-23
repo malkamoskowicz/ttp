@@ -22,7 +22,19 @@ class Portfolio extends React.Component {
 
     componentDidMount() {
         this.mounted = true
-        this.calculateRealtimeInfo()
+
+        // set short timeout to get real time data right away
+        setTimeout(() => {
+            if (!this.mounted) return
+            this.calculateRealtimeInfo()
+        }, 500)
+
+        // set interval to continue to update data on interval until component is unmounted
+        // we need a long interval due to limited api calls with current free plan
+        setInterval(() => {
+            if (!this.mounted) return
+            this.calculateRealtimeInfo()
+        }, 60000)
     }
 
     componentWillUnmount() {
@@ -30,47 +42,46 @@ class Portfolio extends React.Component {
     }
 
     calculateRealtimeInfo() {
-        setInterval(() => { 
-            // if component is unmounted, exit
-            if (!this.mounted) return
 
-            // recalculate portfolio balance
-            let portfolioBalance = 0
+        // if component is unmounted or portfolio is not yet recieved, exit
+        if (!this.props.portfolio) return
 
-            // get portfolio and last updated latestPricesAndColors array
-            const {portfolio} = this.props
+        // recalculate portfolio balance
+        let portfolioBalance = 0
 
-            // loop through previously updated latestPricesAndColors
-            const latestPricesAndColors = this.state.latestPricesAndColors.slice()
+        // get portfolio and last updated latestPricesAndColors array
+        const {portfolio} = this.props
 
-            // for each, get newly updates info
-            portfolio.forEach((item, i)=> {
-                axios.get(`https://cloud.iexapis.com/stable/stock/${item.code}/quote?token=${token}`)
-                .then(stockInfo => {
+        // loop through previously updated latestPricesAndColors
+        const latestPricesAndColors = this.state.latestPricesAndColors.slice()
 
-                    // update portfolio balance 
-                    portfolioBalance += stockInfo.data.latestPrice * item.quantity
-                    console.log('p in loop', portfolioBalance)
+        // for each, get newly updates info
+        portfolio.forEach((item, i)=> {
+            axios.get(`https://cloud.iexapis.com/stable/stock/${item.code}/quote?token=${token}`)
+            .then(stockInfo => {
 
-                    const miniArray = []
+                // update portfolio balance 
+                portfolioBalance += stockInfo.data.latestPrice * item.quantity
+                console.log('p in loop', portfolioBalance)
 
-                    // calculate real time price
-                    miniArray[0] = (stockInfo.data.latestPrice * item.quantity).toFixed(2)
+                const miniArray = []
 
-                    // calculate background color
-                    const last = stockInfo.data.previousClose
-                    const curr = stockInfo.data.latestPrice
-                    if (last < curr) miniArray[1] = 'rgba(0,255,0,0.3)'
-                    else if (last > curr) miniArray[1] = 'rgba(255,0,0,0.6)'
-                    else miniArray[1] = 'rgba(192,192,192,0.4)'
+                // calculate real time price
+                miniArray[0] = (stockInfo.data.latestPrice * item.quantity).toFixed(2)
 
-                    latestPricesAndColors[i] = miniArray
-                })
-                .then(() => {
-                    this.setState({latestPricesAndColors, portfolioBalance: `$${portfolioBalance.toFixed(2)}`})
-                })
+                // calculate background color
+                const last = stockInfo.data.previousClose
+                const curr = stockInfo.data.latestPrice
+                if (last < curr) miniArray[1] = 'rgba(0,255,0,0.3)'
+                else if (last > curr) miniArray[1] = 'rgba(255,0,0,0.6)'
+                else miniArray[1] = 'rgba(192,192,192,0.4)'
+
+                latestPricesAndColors[i] = miniArray
             })
-        }, 9000)
+            .then(() => {
+                this.setState({latestPricesAndColors, portfolioBalance: `$${portfolioBalance.toFixed(2)}`})
+            })
+        })
     }
 
     handleChange(event) {
@@ -79,6 +90,7 @@ class Portfolio extends React.Component {
         })
     }  
     
+    // handle buy stock button
     async handleSubmit(event) {
         event.preventDefault()
         const {quantity, code} = this.state
@@ -99,16 +111,26 @@ class Portfolio extends React.Component {
 
     async buyStock() {
         try {
+            // get data
             const {data} = await axios.get(`https://cloud.iexapis.com/stable/stock/${this.state.code}/quote?token=${token}`)
             const totalPrice = data.latestPrice * this.state.quantity
+
+            // check if user can afford to buy
             if (totalPrice > this.props.cashBalance) {
                 alert('you do not have enough cash to buy')
             }
+
+            // complete purachase
             else this.props.buy({
                 code: data.symbol,
                 quantity: this.state.quantity,
                 totalPrice,
             })
+
+            // update real time info
+            setTimeout(() => {
+                this.calculateRealtimeInfo()
+            }, 100)
         }
         catch(err) {
             alert('invalid ticker code')
