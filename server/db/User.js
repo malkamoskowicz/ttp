@@ -63,6 +63,4 @@ function setSaltAndPassword (user) {
     user.password = User.encryptPassword(user.password, user.salt)
   }
 }
-
-
 module.exports = User
