@@ -118,6 +118,7 @@ class Portfolio extends React.Component {
             // check if user can afford to buy
             if (totalPrice > this.props.cashBalance) {
                 alert('you do not have enough cash to buy')
+                return
             }
 
             // complete purachase
@@ -130,7 +131,7 @@ class Portfolio extends React.Component {
             // update real time info
             setTimeout(() => {
                 this.calculateRealtimeInfo()
-            }, 100)
+            }, 500)
         }
         catch(err) {
             alert('invalid ticker code')
