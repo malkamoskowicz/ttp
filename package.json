@@ -11,7 +11,8 @@
     "build-client-watch": "webpack -p",
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
-    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client"
+    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
+    "deploy": "script/deploy"
   },
   "author": "",
   "license": "ISC",

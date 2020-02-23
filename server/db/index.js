@@ -1,5 +1,11 @@
 const db = require('./db')
+const User = require('./user')
+const Transaction = require('./transaction')
 
-require('./models')
+User.hasMany(Transaction)
 
-module.exports = db
+module.exports = {
+  db,
+  User,
+  Transaction,
+}

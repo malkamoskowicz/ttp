@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const {User, Transaction} = require('../db/models')
+const {User} = require('../db/index')
+const {Transaction} = require('../db/index')
 
 router.patch('/buy', async (req, res, next) => {
   try {
