@@ -4,8 +4,10 @@ const LOGIN_USER = 'LOGIN'
 const BUY_STOCK = 'BUY_STOCK'
 const GET_TRANSACTIONS = 'GET_TRANSACTIONS'
 const GET_PORTFOLIO = 'GET_PORTFOLIO'
+const LOGOUT_USER = 'LOGOUT_USER'
 
 const loginUser = userInfo => ({type: LOGIN_USER, userInfo})
+const logoutUser = () => ({type: LOGOUT_USER})
 const buyStock = stockInfo => ({type: BUY_STOCK, stockInfo})
 const getTransactions = transactions => ({type: GET_TRANSACTIONS, transactions})
 const getPortfolio = portfolio => ({type: GET_PORTFOLIO, portfolio})
@@ -61,6 +63,7 @@ export const checkLogin = () => async dispatch => {
   try {
     const {data} = await axios.get('/auth/me')
     if (!data.error) dispatch(login())
+    else dispatch(logoutUser())
   } catch (err) {
     console.error(err)
   }
@@ -69,13 +72,15 @@ export const checkLogin = () => async dispatch => {
 export default function(state = defaultState, action) {
   switch (action.type) {
     case LOGIN_USER:
-      return {loggedIn: true, cashBalance: action.userInfo.cashBalance}
+      return {loggedIn: 'yes', cashBalance: action.userInfo.cashBalance}
+    case LOGOUT_USER:
+      return {loggedIn: 'no', cashBalance: 0}
     case BUY_STOCK:
       return {
         ...state, 
         cashBalance: state.cashBalance - action.stockInfo.totalPrice,
         transactions: [...state.transactions, action.stockInfo],
-      }
+    }
     case GET_TRANSACTIONS: 
       return {...state, transactions: action.transactions}
     case GET_PORTFOLIO:

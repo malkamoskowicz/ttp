@@ -4,7 +4,7 @@ import {Login, Signup, Transactions, Portfolio} from '.'
 import {connect} from 'react-redux'
 
 const Routes = props =>  {
-    if (props.isLoggedIn) {
+    if (props.isLoggedIn === 'yes') {
       return (
         <Switch>
           <Route path="/transactions" component={Transactions} />
@@ -13,13 +13,19 @@ const Routes = props =>  {
         </Switch>
       )
     }
-    return (
+    if (props.isLoggedIn === 'no') {
+      return (
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route component={Login} />
+        </Switch>
+      ) 
+    }
+    else return (
       <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        <Route component={Login} />
       </Switch>
-    ) 
+    )
 }
 
 const mapStateToProps = state => {
