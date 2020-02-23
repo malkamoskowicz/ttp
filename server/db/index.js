@@ -1,6 +1,6 @@
 const db = require('./db')
-const User = require('./user')
-const Transaction = require('./transaction')
+const User = require('./User')
+const Transaction = require('./Transaction')
 
 User.hasMany(Transaction)
 
