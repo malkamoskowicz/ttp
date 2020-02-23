@@ -1,7 +1,7 @@
-const router = require('express').Router()
-const {User, Transaction} = require('../db')
+const router = require("express").Router()
+const {User, Transaction} = require("../db")
 
-router.patch('/buy', async (req, res, next) => {
+router.patch("/buy", async (req, res, next) => {
   try {
 
     // grab user
@@ -19,18 +19,18 @@ router.patch('/buy', async (req, res, next) => {
       totalPrice: +req.body.totalPrice,
     })
 
-    res.status(200).send('done')
+    res.status(200).send("done")
   }
   catch(err) {
     next(err)
   }
 })
 
-router.get('/transactions', async (req, res, next) => {
+router.get("/transactions", async (req, res, next) => {
   try {
     const transactions = await Transaction.findAll({
       where: {userId: req.user.id},
-      attributes: ['code', 'quantity', 'totalPrice', 'id']
+      attributes: ["code", "quantity", "totalPrice", "id"]
     })
     res.json(transactions.reverse())
   }
@@ -39,12 +39,12 @@ router.get('/transactions', async (req, res, next) => {
   }
 })
 
-router.get('/portfolio', async (req, res, next) => {
+router.get("/portfolio", async (req, res, next) => {
   try {
     // grab codes from all transactions
     const allCodesObjects = await Transaction.findAll({
       where: {userId: req.user.id},
-      attributes: ['code', 'quantity'],
+      attributes: ["code", "quantity"],
     })
     
     const uniqueCodesObject = {}
@@ -69,7 +69,7 @@ router.get('/portfolio', async (req, res, next) => {
 })
 
 router.use((req, res, next) => {
-    const err = new Error('Not found.')
+    const err = new Error("Not found.")
     err.status = 404
     next(err)
 })
