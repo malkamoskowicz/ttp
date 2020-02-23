@@ -1,1 +1,1 @@
-web: node server.js
+web: node server/db/user.js
