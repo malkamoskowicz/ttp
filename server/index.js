@@ -10,7 +10,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 //session middleware
-app.use(session({secret: process.env.SESSION_SECRET || 'h4fgdh89HJ@93jfc'}))
+app.use(session({
+  secret: process.env.SESSION_SECRET || require('../secrets').sessionSecret,
+  cookie: {maxAge: 3600000 * 24}
+}))
 
 app.use(passport.initialize())
 app.use(passport.session())

@@ -1,8 +1,9 @@
 import React from 'react'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import {token} from '../../secrets'
 import {buy} from '../reducers'
+
+const token = process.env.TOKEN || require('../../secrets').token
 
 class Portfolio extends React.Component {
     constructor() {
@@ -55,14 +56,13 @@ class Portfolio extends React.Component {
         // loop through previously updated latestPricesAndColors
         const latestPricesAndColors = this.state.latestPricesAndColors.slice()
 
-        // for each, get newly updates info
+        // for each, get newly updated info
         portfolio.forEach((item, i)=> {
             axios.get(`https://cloud.iexapis.com/stable/stock/${item.code}/quote?token=${token}`)
             .then(stockInfo => {
 
                 // update portfolio balance 
                 portfolioBalance += stockInfo.data.latestPrice * item.quantity
-                console.log('p in loop', portfolioBalance)
 
                 const miniArray = []
 

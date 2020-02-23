@@ -23,6 +23,8 @@ class Login extends React.Component {
     async handleSubmit(event) {
         event.preventDefault()
         const {email, password} = this.state
+
+        // validate fields
         if (!email.length || !password.length) {
             alert("please enter both fields")
             return
@@ -31,6 +33,8 @@ class Login extends React.Component {
             email,
             password
         }
+
+        // login user
         const { data } = await axios.put('/auth/login', userInfo)
         if (data.error) alert(data.error)
         else this.props.login()

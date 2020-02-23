@@ -59,6 +59,7 @@ export const buy = (stockInfo) => async dispatch => {
   }
 }
 
+// check to see if there is an active cookie session, if so use it to log user in
 export const checkLogin = () => async dispatch => {
   try {
     const {data} = await axios.get('/auth/me')
