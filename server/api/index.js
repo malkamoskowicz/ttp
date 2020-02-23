@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Transaction} = require('../db')
+const {User, Transaction} = require('../db/models')
 
 router.patch('/buy', async (req, res, next) => {
   try {
@@ -13,10 +13,11 @@ router.patch('/buy', async (req, res, next) => {
     })
 
     // create transaction
-    await user.createTransaction({
+    await Transaction.create({
       code: req.body.code,
       quantity: +req.body.quantity,
       totalPrice: +req.body.totalPrice,
+      userId: req.user.id,
     })
 
     res.status(200).send('done')

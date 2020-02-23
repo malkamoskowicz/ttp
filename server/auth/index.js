@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User} = require('../db')
+const User = require('../db/models/User')
 const passport = require('passport')
 
 // passport registration
