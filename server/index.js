@@ -10,11 +10,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 //session middleware
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'a wildly insecure secret',
-  resave: false,
-  saveUninitialized: false
-}))
+app.use(session({secret: process.env.SESSION_SECRET || 'h4fgdh89HJ@93jfc'}))
 
 app.use(passport.initialize())
 app.use(passport.session())

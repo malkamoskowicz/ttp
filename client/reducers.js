@@ -57,6 +57,15 @@ export const buy = (stockInfo) => async dispatch => {
   }
 }
 
+export const checkLogin = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/auth/me')
+    if (!data.error) dispatch(login())
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export default function(state = defaultState, action) {
   switch (action.type) {
     case LOGIN_USER:

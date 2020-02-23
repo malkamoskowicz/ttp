@@ -25,8 +25,9 @@ router.put('/login', async (req, res, next) => {
           if (!user || !user.correctPassword(req.body.password)) res.send({error: 'Invalid credentials'})
           else {
               req.login(user, err => {
-              if (err) next(err)
-              else res.json(user)
+                req.session.id = user.id
+                if (err) next(err)
+                else res.json(user)
               })
           }
         
@@ -44,6 +45,7 @@ router.post('/signup', async (req, res, next) => {
           cashBalance: '50000',
       })
       req.login(user, err => {
+          req.session.id = user.id
           if (err) next(err)
           else res.json(user)
       })
@@ -58,10 +60,15 @@ router.delete('/logout', (req, res, next) => {
   res.sendStatus(204)
 })
 
-router.get('/me', (req, res, next) => {
-  res.json({
-    cashBalance: req.user.cashBalance
-  })
+router.get('/me', async (req, res, next) => {
+  if (req.session.passport) {
+    const user = await User.findByPk(req.session.passport.user)
+    req.login(user, err => {
+        if (err) res.send({error: "not logged in"})
+        else res.json(user)
+    })
+  }
+  else res.send({error: "not logged in"})
 })
 
 router.use((req, res, next) => {
