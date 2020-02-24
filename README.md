@@ -1,6 +1,6 @@
 # Stock Portfolio App
 
-A Full Stack web-based portfolio app created as part of an assessment for entry into the NYC Tech Talent Pipeline network.
+A Full Stack web-based portfolio app created as part of a candidate assessment.
 
 Technologies used: JavaScript, React, Redux, Node, Express, Passport, IEX Cloud, HTML and CSS. 
 
