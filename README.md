@@ -16,12 +16,12 @@ Email: guest@email.com
 
 Password: guest
 
-## Steps set up use locally
+## Steps set up locally
 
-1. Fork and clone application.
+1. Fork and clone application
 
-2. Run npm install. 
+2. Run npm install
 
-3. Run npm start.
+3. Run npm start
 
 4. Open up in port 3039
